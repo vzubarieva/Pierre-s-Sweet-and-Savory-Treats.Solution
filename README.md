@@ -1,4 +1,4 @@
-# Name of the project
+# Pierre's Sweet and Savory Treats
 
 #### By: Viktoriia Zubarieva
 
@@ -10,7 +10,7 @@
 - .Net 5.0
 - git
 - ASP.NET Core MVC
-- MSTest
+-
 
 ## Setup/Installation Requirements
 
