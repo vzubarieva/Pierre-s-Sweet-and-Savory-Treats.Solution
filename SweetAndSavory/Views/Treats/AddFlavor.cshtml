@@ -4,16 +4,13 @@
 
 @model SweetAndSavory.Models.Treat
 
-<h2>Edit</h2>
+<h2>Add a flavor</h2>
 
-<h4>Edit this treat: @Html.DisplayFor(model => model.TreatName)</h4>
+<h4>Add a flavor to this treat: @Html.DisplayFor(model => model.TreatName)</h4>
 
 @using (Html.BeginForm())
 {
   @Html.HiddenFor(model => model.TreatId)
-
-  @Html.LabelFor(model => model.TreatName)
-  @Html.EditorFor(model => model.TreatName)
 
   @Html.Label("Select flavor")
   @Html.DropDownList("FlavorId")
