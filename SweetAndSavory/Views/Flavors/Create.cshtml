@@ -1,16 +1,19 @@
-@* @{
+@{
   Layout = "_Layout";
-  }
+}
 
-  @model BestRestaurants.Models.Restaurant
+@model SweetAndSavory.Models.Flavor
 
-  <h4>Add a new restaurant</h4>
-  @using (Html.BeginForm())
-  {
-  @Html.LabelFor(model => model.Name)
-  @Html.TextBoxFor(model => model.Name)
-  @Html.LabelFor(model => model.MichelinStars)
-  @Html.TextBoxFor(model => model.MichelinStars)
-  <input type="submit" value="Add new restaurant" />
-  }
-  <p>@Html.ActionLink("Show all restaurants", "Index")</p> *@
+<h4>Add a new flavor</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.FlavorName)
+  @Html.TextBoxFor(model => model.FlavorName)
+
+  @Html.Label("Select treat")
+  @Html.DropDownList("TreatId")
+
+  <input type="submit" value="Add new flavor" class="btn btn-default" />
+}
+<p>@Html.ActionLink("Show all flavors", "Index")</p>
