@@ -93,19 +93,28 @@ namespace SweetAndSavory.Controllers
             return RedirectToAction("Index");
         }
 
-        //         //         public ActionResult Delete(int id)
-        //         //         {
-        //         //             var thisCuisine = _db.Cuisines.FirstOrDefault(cuisine => cuisine.CuisineId == id);
-        //         //             return View(thisCuisine);
-        //         //         }
+        public ActionResult Delete(int id)
+        {
+            var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+            return View(thisTreat);
+        }
 
-        //         //         [HttpPost, ActionName("Delete")]
-        //         //         public ActionResult DeleteConfirmed(int id)
-        //         //         {
-        //         //             var thisCuisine = _db.Cuisines.FirstOrDefault(cuisine => cuisine.CuisineId == id);
-        //         //             _db.Cuisines.Remove(thisCuisine);
-        //         //             _db.SaveChanges();
-        //         //             return RedirectToAction("Index");
-        //         //         }
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+            _db.Treats.Remove(thisTreat);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFlavor(int joinId)
+        {
+            var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+            _db.FlavorTreat.Remove(joinEntry);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
