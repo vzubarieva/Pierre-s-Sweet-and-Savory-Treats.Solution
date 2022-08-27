@@ -1,17 +1,53 @@
+@using SweetAndSavory.ViewModels
+@using System.Security.Claims
+
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
   <title>Pierre's Backery</title>
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="~/css/styles.css">
-  @* <title>@ViewBag.PageTitle</title> *@
 </head>
 
 <body>
-
+  <header>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        @Html.ActionLink("Home", "Index", "Home", new {}, new {@class =
+        "navbar-brand"})
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex">
+            @if (User.Identity.IsAuthenticated)
+            {
+              @using (Html.BeginForm("LogOff", "Account"))
+              {
+                <li class="nav-item">
+                  <button type="submit" class="btn btn-light">Log out</button>
+                </li>
+              }
+            }
+            else
+            {
+              <li class="nav-item">
+                @Html.ActionLink("Register", "Register", "Account", new {}, new {@class ="nav-link active"})
+              </li>
+              <li class="nav-item">
+                @Html.ActionLink("Log in", "Login", "Account", new {}, new {@class ="nav-link active"})
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
   <div class="container">
     @RenderBody()
   </div>

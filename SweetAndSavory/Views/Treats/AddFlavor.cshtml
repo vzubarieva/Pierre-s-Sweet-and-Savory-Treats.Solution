@@ -4,16 +4,11 @@
 
 @model SweetAndSavory.Models.Treat
 
-<h2>Add a flavor</h2>
-
 <h4>Add a flavor to this treat: @Html.DisplayFor(model => model.TreatName)</h4>
 
 @using (Html.BeginForm())
 {
   @Html.HiddenFor(model => model.TreatId)
-
-  @Html.Label("Select flavor")
-  @Html.DropDownList("FlavorId")
 
   <div class="input-group input-group-lg mb-3">
     <span class="input-group-text" id="inputGroup-sizing-lg">@Html.Label("Select flavor") </span>
@@ -21,9 +16,9 @@
   "form-select"})
   </div>
 
-  <button type="submit" class="btn btn-info">Save</button>
+  <button type="submit" class="btn btn-light">Save</button>
 }
 
 <div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
-  <p>@Html.ActionLink("Back to list", "Index")</p>
+  <p>@Html.ActionLink("Back to list", "Index", new {}, new {@class="btn btn-light"})</p>
 </div>

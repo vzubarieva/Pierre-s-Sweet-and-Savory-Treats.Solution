@@ -4,7 +4,7 @@
 
 @using System.Security.Claims
 
-<h2>Authentication with Identity</h2>
+
 <hr />
 @if (User.Identity.IsAuthenticated)
 {
@@ -17,7 +17,9 @@
 }
 else
 {
-  <p>@Html.ActionLink("Register", "Register")</p>
-  <p>@Html.ActionLink("Log in", "Login")</p>
-  <p>@Html.ActionLink("Home", "Index", "Home")</p>
+  <div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
+    <p>@Html.ActionLink("Register", "Register",new {}, new {@class="btn btn-light"} )</p>
+    <p>@Html.ActionLink("Log in", "Login", new {}, new {@class="btn btn-light"})</p>
+    <p>@Html.ActionLink("Home", "Index", "Home", new {}, new {@class="btn btn-light"})</p>
+  </div>
 }

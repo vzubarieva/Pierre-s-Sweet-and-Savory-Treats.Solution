@@ -30,13 +30,13 @@ else
   </ul>
 }
 <div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
-  <p>@Html.ActionLink("Back to list", "Index")</p>
+  <p>@Html.ActionLink("Back to list", "Index", new {}, new {@class="btn btn-light"})</p>
 </div>
 @if (@ViewBag.isOwner)
 {
   <div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
-    <p>@Html.ActionLink("Edit Treat", "Edit", new { id = Model.TreatId })</p>
-    <p>@Html.ActionLink("Delete Treat", "Delete", new { id = Model.TreatId })</p>
-    <p>@Html.ActionLink("Add a Flavor", "AddFlavor", new { id = Model.TreatId })</p>
+    <p>@Html.ActionLink("Edit Treat", "Edit", new { id = Model.TreatId }, new {@class="btn btn-light"})</p>
+    <p>@Html.ActionLink("Delete Treat", "Delete", new { id = Model.TreatId }, new {@class="btn btn-light"})</p>
+    <p>@Html.ActionLink("Add a Flavor", "AddFlavor", new { id = Model.TreatId }, new {@class="btn btn-light"})</p>
   </div>
 }
