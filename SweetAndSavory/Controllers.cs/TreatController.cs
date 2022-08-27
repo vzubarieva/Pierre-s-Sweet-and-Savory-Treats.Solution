@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SweetAndSavory.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace SweetAndSavory.Controllers
 {
@@ -11,13 +12,23 @@ namespace SweetAndSavory.Controllers
     {
         private readonly SweetAndSavoryContext _db;
 
-        public TreatsController(SweetAndSavoryContext db)
+        // private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger _logger;
+
+        public TreatsController(
+            // UserManager<ApplicationUser> userManager,
+            SweetAndSavoryContext db,
+            ILogger<TreatsController> logger
+        )
         {
+            // _userManager = userManager;
             _db = db;
+            _logger = logger;
         }
 
         public ActionResult Index()
         {
+            _logger.LogInformation("treats Index() method");
             List<Treat> model = _db.Treats.ToList();
             return View(model);
         }
