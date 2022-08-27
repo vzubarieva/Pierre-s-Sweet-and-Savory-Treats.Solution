@@ -8,12 +8,24 @@
 
 @using (Html.BeginForm())
 {
-  @Html.LabelFor(model => model.TreatName)
-  @Html.TextBoxFor(model => model.TreatName)
+  <div class="input-group input-group-sm mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-sm">@Html.LabelFor(model => model.TreatName)
+    </span>
+    @Html.TextBoxFor(m => m.TreatName, new{@class = "form-control"})
+  </div>
+  @* @Html.LabelFor(model => model.TreatName)
+    @Html.TextFor(model => model.TreatName) *@
 
-  @Html.Label("Select flavor")
-  @Html.DropDownList("FlavorId")
+  @* @Html.Label("Select flavor")
+    @Html.DropDownList("FlavorId") *@
+  <div class="input-group input-group-lg mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-lg">@Html.Label("Select flavor") </span>
+    @Html.DropDownList("FlavorId", (IEnumerable<SelectListItem>)@ViewBag.FlavorId, "FlavorName", new{@class =
+  "form-select"})
+  </div>
 
-  <input type="submit" value="Add new treat" class="btn btn-default" />
+  <button type="submit" class="btn btn-info">Add new treat</button>
 }
-<p>@Html.ActionLink("Show all treats", "Index")</p>
+<div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
+  <p>@Html.ActionLink("Show all treats", "Index")</p>
+</div>

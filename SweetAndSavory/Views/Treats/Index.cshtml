@@ -3,21 +3,24 @@
 }
 
 @using SweetAndSavory.Models;
-@model List<SweetAndSavory.Models.Treat>;
+@model IEnumerable<SweetAndSavory.Models.Treat>
 
-<h1>Treats</h1>
+<h1>Treats for @User.Identity.Name</h1>
 
-@if (@Model.Count == 0)
+
+@if (Model.Any())
+{
+  <ul class="list-group list-group-flush">
+    @foreach (Treat treat in Model)
+    {
+      <li class="list-group-item">@Html.ActionLink($"{treat.TreatName}", "Details", new { id = treat.TreatId })</li>
+    }
+  </ul>
+}
+else
 {
   <h3>No treats have been added yet!</h3>
 }
-
-<ul>
-  @foreach (Treat treat in Model)
-  {
-    <li>@Html.ActionLink($"{treat.TreatName}", "Details", new { id = treat.TreatId }) </li>
-  }
-</ul>
 <div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
   <p>@Html.ActionLink("Add new treat", "Create")</p>
   <p>@Html.ActionLink("Home", "Index", "Home")</p>

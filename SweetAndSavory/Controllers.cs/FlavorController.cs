@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using SweetAndSavory.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace SweetAndSavory.Controllers
 {
@@ -11,9 +16,18 @@ namespace SweetAndSavory.Controllers
     {
         private readonly SweetAndSavoryContext _db;
 
-        public FlavorsController(SweetAndSavoryContext db)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger _logger;
+
+        public FlavorsController(
+            UserManager<ApplicationUser> userManager,
+            SweetAndSavoryContext db,
+            ILogger<FlavorsController> logger
+        )
         {
+            _userManager = userManager;
             _db = db;
+            _logger = logger;
         }
 
         public ActionResult Index()
@@ -109,7 +123,7 @@ namespace SweetAndSavory.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteFlavor(int joinId)
+        public ActionResult DeleteTreat(int joinId)
         {
             var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
             _db.FlavorTreat.Remove(joinEntry);

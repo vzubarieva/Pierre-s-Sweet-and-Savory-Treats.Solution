@@ -11,6 +11,9 @@ namespace SweetAndSavory.Models
 
         public int TreatId { get; set; }
         public string TreatName { get; set; }
+        public string UserId { get; set; } // Foreign Key
+
+        public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<FlavorTreat> JoinEntities { get; }
     }

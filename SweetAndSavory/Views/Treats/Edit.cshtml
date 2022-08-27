@@ -6,11 +6,13 @@
 
 <h2>Edit</h2>
 
-<h4>Edit this treat: @Html.DisplayFor(model => model.TreatName)</h4>
+<h4>Edit this treat: @Html.DisplayFor(model => model.TreatName), created by @Html.DisplayFor(model => model.UserId)</h4>
 
 @using (Html.BeginForm())
 {
   @Html.HiddenFor(model => model.TreatId)
+  @Html.HiddenFor(model => model.UserId)
+
 
   @Html.LabelFor(model => model.TreatName)
   @Html.EditorFor(model => model.TreatName)
@@ -20,5 +22,6 @@
 
   <input type="submit" value="Save" />
 }
-
-<p>@Html.ActionLink("Back to list", "Index")</p>
+<div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
+  <p>@Html.ActionLink("Back to list", "Index")</p>
+</div>

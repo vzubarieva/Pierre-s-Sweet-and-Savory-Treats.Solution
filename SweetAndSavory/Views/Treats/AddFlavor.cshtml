@@ -15,7 +15,15 @@
   @Html.Label("Select flavor")
   @Html.DropDownList("FlavorId")
 
-  <input type="submit" value="Save" />
+  <div class="input-group input-group-lg mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-lg">@Html.Label("Select flavor") </span>
+    @Html.DropDownList("FlavorId", (IEnumerable<SelectListItem>)@ViewBag.FlavorId, "FlavorName", new{@class =
+  "form-select"})
+  </div>
+
+  <button type="submit" class="btn btn-info">Save</button>
 }
 
-<p>@Html.ActionLink("Back to list", "Index")</p>
+<div class="hstack gap-3 pt-3 mt-3 border-top border-dark">
+  <p>@Html.ActionLink("Back to list", "Index")</p>
+</div>

@@ -5,34 +5,36 @@ using SweetAndSavory.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace SweetAndSavory.Controllers
 {
     public class TreatsController : Controller
     {
         private readonly SweetAndSavoryContext _db;
-
-        // private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger _logger;
 
         public TreatsController(
-            // UserManager<ApplicationUser> userManager,
+            UserManager<ApplicationUser> userManager,
             SweetAndSavoryContext db,
             ILogger<TreatsController> logger
         )
         {
-            // _userManager = userManager;
+            _userManager = userManager;
             _db = db;
             _logger = logger;
         }
 
         public ActionResult Index()
         {
-            _logger.LogInformation("treats Index() method");
-            List<Treat> model = _db.Treats.ToList();
-            return View(model);
+            return View(_db.Treats.ToList());
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
@@ -40,8 +42,11 @@ namespace SweetAndSavory.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Treat treat, int FlavorId)
+        public async Task<ActionResult> Create(Treat treat, int FlavorId)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            treat.User = currentUser;
             _db.Treats.Add(treat);
             _db.SaveChanges();
             if (FlavorId != 0)
@@ -49,38 +54,54 @@ namespace SweetAndSavory.Controllers
                 _db.FlavorTreat.Add(
                     new FlavorTreat() { FlavorId = FlavorId, TreatId = treat.TreatId }
                 );
-                _db.SaveChanges();
             }
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUser = await _userManager.FindByIdAsync(userId);
             var thisTreat = _db.Treats
+                .Include(treat => treat.User)
                 .Include(treat => treat.JoinEntities)
                 .ThenInclude(join => join.Flavor)
                 .FirstOrDefault(treat => treat.TreatId == id);
+
+            ViewBag.isOwner = thisTreat.User.Id == currentUser?.Id;
             return View(thisTreat);
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
-            var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+            var thisTreat = _db.Treats
+                .Include(treat => treat.User)
+                .FirstOrDefault(treat => treat.TreatId == id);
             ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
             return View(thisTreat);
         }
 
+        [Authorize]
         [HttpPost]
-        public ActionResult Edit(Treat treat, int FlavorId)
+        public async Task<ActionResult> Edit(Treat treat, int FlavorId)
         {
-            if (FlavorId != 0)
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUser = await _userManager.FindByIdAsync(userId);
+
+            if (treat.UserId == currentUser.Id)
             {
-                _db.FlavorTreat.Add(
-                    new FlavorTreat() { FlavorId = FlavorId, TreatId = treat.TreatId }
-                );
+                if (FlavorId != 0)
+                {
+                    _db.FlavorTreat.Add(
+                        new FlavorTreat() { FlavorId = FlavorId, TreatId = treat.TreatId }
+                    );
+                }
+                _db.Entry(treat).State = EntityState.Modified;
+                _db.SaveChanges();
             }
-            _db.Entry(treat).State = EntityState.Modified;
-            _db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
