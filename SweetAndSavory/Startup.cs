@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using SweetAndSavory.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace SweetAndSavory
 {
@@ -34,12 +35,19 @@ namespace SweetAndSavory
                             )
                         )
                 );
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<SweetAndSavoryContext>()
+                .AddDefaultTokenProviders();
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
+            app.UseAuthentication();
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(
                 routes =>

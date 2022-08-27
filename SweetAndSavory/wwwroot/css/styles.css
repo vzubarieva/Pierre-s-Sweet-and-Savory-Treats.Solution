@@ -1,7 +1,3 @@
-h1 {
-  color: aliceblue;
-}
-
 .container {
   text-align: left; 
   padding: 50px;
@@ -12,4 +8,5 @@ h1 {
 body {
   background: #000 url("/img/bread-background.jpg") no-repeat fixed center;
   background-size: cover;
+  color: aliceblue;
 }
